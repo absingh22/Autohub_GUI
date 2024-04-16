@@ -1,0 +1,11 @@
+Category,Scripts_Path,Mandatory_Inputs,Optional_Inputs,Type,lsf_Option
+VERILOG,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/pl.pl,-okay,-ya,2,
+VERILOG,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/45_st.py,-hello -hell,,2,
+STF,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/pl.pl,-okay,,1,
+STF,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/tcl.tcl,-hello -hi -how,-ya,1,
+STF,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/45_st.py,-hello -hell,,1,
+STF,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/45_st.py,-okay,,1,
+STF,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/pl.pl,-hello -hi -how,-ya,2,
+VERILOG,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/45_st.py,-hello -hell,-ya,1,
+VERILOG,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/45_st.py,-okay,,2,
+VERILOG,C:/Users/singhab3/OneDrive - STMicroelectronics/Desktop/Workplace/pl.pl,-okay,-ya,1,

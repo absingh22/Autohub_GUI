@@ -56,4 +56,6 @@ Example row:
 Category,ScriptPath,MandatoryInputs,OptionalInputs,ScriptType,ToolsInput,Info
 MyCategory,/path/to/script.sh,arg1 arg2,arg3 arg4,1,tool1::tool2@version,This is a sample script.
 
+## Screenshot
+
 ![Main Screen](https://github.com/absingh22/Autohub_GUI/blob/main/Autohub_GUI_New.png)

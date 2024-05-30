@@ -1,0 +1,16 @@
+Category,Scripts_Path,Mandatory_Inputs,Optional_Inputs,Type,lsf_Option,Tools,Description
+STF,/work/LIPAM/AUTOMATION/STF/lefAndStfAreaCheck/lefAndStfAreaCheck.tcl,-ExportPath, -modifyLibs,1,,,This script is used to check and update area in LEF vs STF
+STF,/work/LIPAM/AUTOMATION/STF/stf_compile_script,-Export_Path -View_list -Package -libname -synthesisPath,-StfFile -lc_shell,1,,,"This script is used to compile nldm, ccs and lvf .libs"
+VERILOG,/work/LIPAM/AUTOMATION/VERILOG/update_verilog_power_aware.tcl,-LEF_path -verilog_path,-generated_supply_file,2,,,Update your timing wrapper Verilog for power_aware and parameter passing; Run only from outside
+VERILOG,/work/LIPAM/AUTOMATION/VERILOG/correct_verilog_specify_sdf_2p1_3p0.pl,-verilog_file_path,,2,,,Update your verilog specify section from SDF 2.1 to 3.0
+VERILOG,/work/LIPAM/AUTOMATION/VERILOG/correct_verilog_map_sdf_2p1_3p0.pl,-map_file_path,,2,,,Update your verilog map file from SDF 2.1 to 3.0
+VALIDATION,/work/LIPAM/AUTOMATION/VALIDATION/lvs.csh,-gds_path -cdl_path,,2,,PDK@::ic:calibre,"Run LVS in your IP, Run it in batch mode only, you can Use print command and run in the terminal."
+VALIDATION,/work/LIPAM/AUTOMATION/VALIDATION/drc.csh,-gds_path ,,2,,PDK@::ic:calibre,"Run DRC in your IP, Run it in batch mode only, you can Use print command and run in the terminal."
+VALIDATION,/work/LIPAM/AUTOMATION/SYNOPSYS/gdsFastXOR_libderivIndependent,--reflibgds_file --libname --synopsys_layout,--map_file,1,,milkyway::foundation_synopsys_technokit@::PDK@::calibre,Run GdsFast XOR to compare the SYNOPSYS milkyway vs signoff GDS
+VALIDATION,/work/LIPAM/AUTOMATION/STF/BACKANNOTATION_MADE_EASY_CAH.tcl,-lib -verilog, -outdir -celllist -verilogmapfile -vhdlfiles -corefiles -corefilelist -tool,1,,primetime::library_compiler::ssv::xcelium,Run Backannotatopn script to check the timing arcs are correctly backannotated for all the arcs present in verilog
+VALIDATION,/work/LIPAM/AUTOMATION/VERILOG/check_verilog_power_aware_tb_sim.tcl,-lef_path -power_verilog_path,-generated_supply_list_file,2,,xcelium,Check the Verilog for Power Aware update in Backannotated setup only
+VALIDATION,/work/LIPAM/AUTOMATION/STF/ccs_table_values_for_both_gz_lib.tcl,-export,-value ,1,,,
+DOC,/work/LIPAM/AUTOMATION/DOC_GENRATION/kpsrn_index_new.pl,-input_file,-output_file -temp_dir,1,,,
+UPT,/work/LIPAM/USER_AREAS/BHUPENDRA/SCRIPTS/SCRIPTS/perl/uptquery_script.pl,-product ,,2,,,This Script is used to Check the products in UPT.
+UPT,/work/LIPAM/USER_AREAS/BHUPENDRA/SCRIPTS/SCRIPTS/perl/upt_plus_submit_download.pl,--exportPath,--server --suffix --username --Uptlabel --task --password_file --intent,1,,,This Script is used to Create Unicad Update and Submission command in UPT.
+misc,/work/LIPAM/AUTOMATION/MISC/work_area_archival.csh,,,2,,,This Command is used to Create Archival in UPT. Please run this command only is terminal.

@@ -4,9 +4,13 @@ import os
 from PIL import Image, ImageTk
 import pandas as pd
 import shutil
+import subprocess
+import time
 
-# main file
-main_file = "/work/LIPAT/USER_AREAS/ABHISHEK/AUTOMATION_HUB/scripts_file_new.csv"
+#============================================================================================================================================
+main_file = "/work/LIPAT/USER_AREAS/ABHISHEK/AUTOMATION_HUB/scripts_file_new.csv" # change file here
+#============================================================================================================================================
+# read file 
 df = pd.read_csv(main_file)
 
 customtkinter.set_appearance_mode("System")  # Modes: "System" (standard), "Dark", "Light"
@@ -19,6 +23,7 @@ def change_scaling_event(new_scaling: str):
     new_scaling_float = int(new_scaling.replace("%", "")) / 100
     customtkinter.set_widget_scaling(new_scaling_float)
 
+# Input Part
 def inputs(mand_inp, opt_inp, script_type, script_path, tools_inp, selected_script_button, info):
     global current_script_button
     # Reset color of the previously selected button
@@ -39,7 +44,7 @@ def inputs(mand_inp, opt_inp, script_type, script_path, tools_inp, selected_scri
     input_frame.tab(script_name).grid_columnconfigure(0, weight=1)
     input_frame.tab(script_name).grid_rowconfigure((4,5), weight=1)
     
-    # 1 X 2
+    # 1 X 1
     tools_frame = customtkinter.CTkScrollableFrame(app, label_text="TOOLS", label_font=customtkinter.CTkFont(size=14, weight="bold"))#, label_fg_color='transparent')
     tools_frame.grid(row=1, column=1, columnspan=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
     tools_frame.grid_columnconfigure(1, weight=1)
@@ -129,23 +134,21 @@ def inputs(mand_inp, opt_inp, script_type, script_path, tools_inp, selected_scri
     reset_button = customtkinter.CTkButton(input_frame.tab(script_name), text="RESET", command=reset, fg_color="red", border_width=1, width=40, corner_radius=20, hover_color='darkred', font=customtkinter.CTkFont(size=14, weight="bold"))
     reset_button.grid(row=0, column=1, padx=(0, 20), pady=(10, 0), sticky="nse")
     
-    
-    
-    # 0 X 3 - 1 x 0
+    # 2 X 0
     chng_entry = customtkinter.CTkEntry(input_frame.tab(script_name), placeholder_text="Working directory path")
     chng_entry.grid(row=2, column=0, columnspan=2, padx=(20, 20), pady=(20, 0), sticky="nsew")
     
-    # 2 X 0
+    # 3 X 0
     ucdprod_entry = customtkinter.CTkEntry(input_frame.tab(script_name), placeholder_text="Existing .ucdprod path")
     ucdprod_entry.grid(row=3, column=0, columnspan=2, padx=(20, 20), pady=(20, 0), sticky="nsew")
     
     # mandatory frame
-    # 0 X 3 - 2 X 0
+    # 4 X 0
     mandatory_frame = customtkinter.CTkScrollableFrame(input_frame.tab(script_name), label_text="Mandatory Inputs")#, label_fg_color='transparent', label_font=customtkinter.CTkFont(size=14, weight="bold"), height=290)
     mandatory_frame.grid(row=4, column=0, columnspan = 2, padx=(20, 20), pady=(20, 0), sticky="nsew")
     mandatory_frame.grid_columnconfigure(1, weight=1)
     # optional frame
-    # 0 X 3 - 3 X 0
+    # 5 X 0
     optional_frame = customtkinter.CTkScrollableFrame(input_frame.tab(script_name), label_text="Optional Inputs")
     optional_frame.grid(row=5, column=0, columnspan = 2, padx=(20, 20), pady=(20, 0), sticky="nsew")
     optional_frame.grid_columnconfigure(1, weight=1)
@@ -248,9 +251,6 @@ def inputs(mand_inp, opt_inp, script_type, script_path, tools_inp, selected_scri
             try:
                 if '.ucdprod' in ucdprod_entry.get():
                     shutil.copy2(ucdprod_entry.get(), os.path.join(os.getcwd(), '.ucdprod'))
-                    #with open(os.path.join(os.getcwd(), '.ucdprod'), 'a') as f:
-                    #    f.write('python 3.10.4\n')
-                    #f.close()
             except FileNotFoundError:
                 print('The specified directory does not exist.')
         else:
@@ -271,23 +271,30 @@ def inputs(mand_inp, opt_inp, script_type, script_path, tools_inp, selected_scri
             f.write('echo FINISHED\n')
         
         os.system('chmod 755 script.csh')
-        os.system('script.csh')
-        #os.system("xfce4-terminal --hold --command='script.csh'")
+        # same terminal output
+        #os.system('script.csh')
+        # new terminal output 
+        tail_process = subprocess.Popen(["xfce4-terminal", "--command", f"tail -f output.log"])
+        time.sleep(1)
+        with open("output.log", "w") as f:
+            subprocess.Popen(["script.csh"], stdout=f, stderr=subprocess.STDOUT).wait()
+        tail_process.terminate()
+        tail_process.wait()
         os.chdir(current_directory)
 
     def print_command():
         print(" ".join(construct_command()))
     # run button
-    # 0 X 3 - 4 X 0
+    # 6 X 0
     run_button = customtkinter.CTkButton(input_frame.tab(script_name), text='Run', border_width=2, command=run_command, fg_color="green", hover_color="darkgreen", font=customtkinter.CTkFont(size=16, weight="bold"), height=50)
     run_button.grid(row=6, column=0, padx=(20, 20), pady=(20, 20), sticky="nsw")
     run_button.configure(state=customtkinter.DISABLED)
     # print button
-    # 0 X 0 - 4 X 0
+    # 6 X 1
     print_button = customtkinter.CTkButton(input_frame.tab(script_name), text='Print\nCommand', border_width=2, command=print_command, fg_color="green", hover_color="darkgreen", font=customtkinter.CTkFont(size=14, weight="bold"), height=50)
     print_button.grid(row=6, column=1, padx=(0, 20), pady=(20, 20), sticky="nse")
 
-
+# Data Extraction Part
 def get_script(name, selected_category_button):
     global current_category_button
     # Reset color of the previously selected button
@@ -309,11 +316,11 @@ def get_script(name, selected_category_button):
     #print(category_df)
 
 
-###################### main ######################
+#############################################  main  #############################################
 app = customtkinter.CTk()
 app.title("\U0001F6FAmation Hub")
 app.geometry(f"{1200}x{700}")
-
+# top left corner image
 iconpath = ImageTk.PhotoImage(file="/work/LIPAS/USER_AREAS/BHUPENDRA/CMOSE40ULP/CMOSE40ULP_CONV_ADC_SA_12b_5Msps_S_H_OD25_7m4x2zAP@1.0-INTERM-00/TEMP/automation_light.png")
 app.wm_iconbitmap()
 app.iconphoto(False, iconpath)
@@ -329,7 +336,7 @@ app.grid_rowconfigure(2, weight=1)
 sidebar_frame = customtkinter.CTkFrame(app, width=140, corner_radius=0)
 sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
 sidebar_frame.grid_rowconfigure(4, weight=1)
-
+# logo image
 logo_image = customtkinter.CTkImage(dark_image=Image.open('/work/LIPAS/USER_AREAS/BHUPENDRA/CMOSE40ULP/CMOSE40ULP_CONV_ADC_SA_12b_5Msps_S_H_OD25_7m4x2zAP@1.0-INTERM-00/TEMP/automation_light.png'), light_image=Image.open('/work/LIPAS/USER_AREAS/BHUPENDRA/CMOSE40ULP/CMOSE40ULP_CONV_ADC_SA_12b_5Msps_S_H_OD25_7m4x2zAP@1.0-INTERM-00/TEMP/automation_dark.png'), size=((80, 80)))
 logo_label = customtkinter.CTkLabel(sidebar_frame, text="CAD\nAutomation\nHub", font=customtkinter.CTkFont(size=24, weight="bold"), image=logo_image, compound=customtkinter.TOP)
 logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
@@ -366,7 +373,7 @@ input_frame = customtkinter.CTkTabview(app, border_width=1, width=420)
 input_frame.grid(row=0, column=3, rowspan=3, padx=(20, 20), pady=(10, 20), sticky="nsew")
 input_frame.grid_columnconfigure(0, weight=1)
 
-# 1 X 2
+# 1 X 1
 tools_frame = customtkinter.CTkScrollableFrame(app, label_text="TOOLS", label_font=customtkinter.CTkFont(size=14, weight="bold"))#, label_fg_color='transparent')
 tools_frame.grid(row=1, column=1, columnspan=2, padx=(20, 0), pady=(20, 0), sticky="nsew")
 tools_frame.grid_columnconfigure(0, weight=1)
